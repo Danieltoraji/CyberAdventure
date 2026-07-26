@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CyberAdventure // 夜城终端</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/cyberpunk.css">
+</head>
+<body>
+  <div id="boot-screen" class="boot-screen">
+    <div class="boot-text" id="bootText"></div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <header class="title-bar">
+      <span class="title-bar-dot red"></span>
+      <span class="title-bar-dot yellow"></span>
+      <span class="title-bar-dot green"></span>
+      <span class="title-bar-title">CYBERADVENTURE // NIGHTCITY_TERMINAL v2.1</span>
+      <span class="title-bar-status" id="statusBar">● ONLINE</span>
+    </header>
+
+    <div class="main-layout">
+      <main class="content-panel">
+        <div class="scene-title" id="sceneTitle"></div>
+        <div class="scene-image" id="sceneImage"></div>
+        <div class="scene-text" id="sceneText"></div>
+        <div class="options" id="options"></div>
+      </main>
+
+      <aside class="sidebar">
+        <div class="panel inventory-panel">
+          <div class="panel-header">INVENTORY // 物品栏</div>
+          <ul class="inventory-list" id="inventoryList">
+            <li class="empty-hint">[ 空 ]</li>
+          </ul>
+        </div>
+
+        <div class="panel stats-panel">
+          <div class="panel-header">SKILLS // 技能</div>
+          <ul class="stats-list" id="statsList"></ul>
+        </div>
+
+        <div class="panel actions-panel">
+          <div class="panel-header">SYSTEM // 系统</div>
+          <div class="actions-buttons">
+            <button class="btn-action" id="btnSave">存档</button>
+            <button class="btn-action" id="btnLoad">读档</button>
+            <button class="btn-action" id="btnRestart">重启</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <footer class="status-bar">
+      <span id="footerLocation">LOC: --</span>
+      <span id="footerHint">提示: 点击选项继续</span>
+    </footer>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="data/settings.js"></script>
+  <script src="data/items.js"></script>
+  <script src="data/story.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/inventory.js"></script>
+  <script src="js/save.js"></script>
+  <script src="js/engine.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

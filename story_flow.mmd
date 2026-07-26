@@ -1,0 +1,346 @@
+%%{init: {'theme':'dark', 'themeVariables': {'fontSize':'14px', 'fontFamily':'monospace'}}}%%
+flowchart TD
+    %% ===== 第一幕: 觉醒 — 维修舱区域 =====
+    subgraph Act1_Awakening["第一幕: 觉醒 Act 1 — Awakening"]
+        subgraph RepairBay["维修舱区域"]
+            START["🟢 start<br/>维修舱 // 系统警报<br/>+toolkit"]
+            START_SEARCH["📦 start_search<br/>翻找物资<br/>+medkit"]
+            START_LOG["📜 start_log<br/>日志终端<br/>+flag:read_log"]
+            START_MEMORY["💭 start_memory<br/>回忆三年前<br/>+flag:recalled_past"]
+            PATH_HACK["⚡ path_hack<br/>协议破解<br/>hack+1"]
+            PATH_FIGHT["🔨 path_fight<br/>强行破拆"]
+            PATH_CHARM["💬 path_charm<br/>对话织星<br/>+flag:weaver_trust"]
+            PATH_CHARM_TALK["💬 path_charm_talk<br/>深入对话<br/>charm+1"]
+            PATH_FALLBACK["❌ path_fallback<br/>破解失败"]
+        end
+
+        subgraph Corridor["走廊区域"]
+            CORRIDOR["🚶 corridor<br/>B区走廊 // 异变"]
+            CORRIDOR_DORM["💀 corridor_dorm<br/>宿舍区 // 遇难者<br/>+flag:saw_victim"]
+            CORRIDOR_DORM_CARD["💳 corridor_dorm_card<br/>获得通行卡<br/>+accesskey"]
+            CORRIDOR_SCREEN["📺 corridor_screen<br/>全息屏<br/>+flag:weaver_hint"]
+            CORRIDOR_BATTLE["⚔️ corridor_battle<br/>首战"]
+            CORRIDOR_WIN["🏆 corridor_win<br/>机器人倒下<br/>+emp_grenade, fight+1"]
+            CORRIDOR_LOSE["💀 corridor_lose<br/>被击倒<br/>fight-1"]
+        end
+
+        subgraph Atrium["中庭区域"]
+            ATRIUM["🏛️ atrium<br/>三方对峙"]
+            ATRIUM_CIVILIANS["👥 atrium_civilians<br/>安抚平民<br/>charm+1"]
+            ATRIUM_OBSERVE["👁️ atrium_observe<br/>冷眼旁观<br/>charm+1"]
+            WEAVER_INTRO["🔵 weaver_intro<br/>织星 // 对话<br/>+weaver_shard, +flag:met_weaver"]
+            LIB_INTRO["🔴 lib_intro<br/>解放阵线 // 接触<br/>+flag:met_lib"]
+            CORP_INTRO["🟡 corp_intro<br/>公司残党 // 接触<br/>+flag:met_corp"]
+        end
+
+        subgraph FactionChoice["站队抉择"]
+            FACTION_WEAVER["🔵 faction_weaver<br/>投向织星<br/>+flag:weaver_path"]
+            FACTION_LIB["🔴 faction_lib<br/>投向解放阵线<br/>+flag:lib_path"]
+            FACTION_CORP["🟡 faction_corp<br/>投向公司残党<br/>+flag:corp_path"]
+        end
+    end
+
+    %% ===== 第二幕: 抉择 — 三条路线 =====
+    subgraph Act2_Choice["第二幕: 抉择 Act 2 — Choice"]
+        subgraph WeaverPath["🔵 织星线 Weaver Path"]
+            WEAVER_CORE_1["🔒 weaver_core_1<br/>织星核心 // 入口"]
+            WEAVER_STUDY["📖 weaver_study<br/>研读代码<br/>hack+1"]
+            WEAVER_CORE_2["🧱 weaver_core_2<br/>防火墙"]
+            WEAVER_CORE_3["💎 weaver_core_3<br/>真相之厅<br/>+truth_disk"]
+            WEAVER_CORE_RECORDS["📜 weaver_core_records<br/>实验记录<br/>+flag:saw_records"]
+            WEAVER_CORE_BIRTH["🌟 weaver_core_birth<br/>诞生过程<br/>+flag:know_origin"]
+            WEAVER_CORE_4["💬 weaver_core_4<br/>对话"]
+            WEAVER_CORE_5["🤝 weaver_core_5<br/>调停之路<br/>+flag:weaver_mission"]
+            WEAVER_CIVILIANS["👥 weaver_civilians<br/>引导平民<br/>+flag:saved_civilians, charm+1"]
+            WEAVER_CHEN_MEET["🤝 weaver_chen_meet<br/>秘密会面陈主管"]
+            WEAVER_CHEN_YES["✅ weaver_chen_yes<br/>陈主管转变<br/>+flag:chen_allied, charm+1"]
+            WEAVER_CHEN_THREAT["⚠️ weaver_chen_threat<br/>威胁<br/>+flag:chen_forced"]
+            WEAVER_CORE_6["💬 weaver_core_6<br/>说服阿明"]
+            WEAVER_CORE_7["✅ weaver_core_7<br/>阿明的转变<br/>+flag:amin_convinced, charm+1"]
+            WEAVER_CORE_FAIL["❌ weaver_core_fail<br/>破解失败"]
+            WEAVER_CORE_QUIT["🚪 weaver_core_quit<br/>退出"]
+        end
+
+        subgraph LibPath["🔴 解放线 Liberation Path"]
+            LIB_PLAN_1["🗺️ lib_plan_1<br/>作战计划"]
+            LIB_PLAN_2["🔍 lib_plan_2<br/>C区侦察"]
+            LIB_PLAN_SNEAK["🤫 lib_plan_sneak<br/>潜入<br/>charm+1"]
+            LIB_PLAN_3["⚔️ lib_plan_3<br/>维修管道突破<br/>+emp_grenade, fight+1"]
+            LIB_PLAN_3B["⚔️ lib_plan_3b<br/>强攻主通道<br/>fight+1"]
+            LIB_PLAN_4["💣 lib_plan_4<br/>凯拉的真相"]
+            LIB_PLAN_PHOTO["📷 lib_plan_photo<br/>凯拉的弟弟<br/>+flag:know_kara_brother"]
+            LIB_PLAN_5["✅ lib_plan_5<br/>凯拉让步<br/>+flag:kara_spared, charm+1"]
+            LIB_PLAN_5B["💥 lib_plan_5b<br/>决意炸站<br/>+flag:destroy_station"]
+            LIB_PLAN_5C["🚫 lib_plan_5c<br/>分歧<br/>+flag:lib_arrested"]
+            LIB_PLAN_FAIL["❌ lib_plan_fail<br/>突围失败<br/>fight-1"]
+        end
+
+        subgraph CorpPath["🟡 公司线 Corp Path"]
+            CORP_DEAL_1["🖥️ corp_deal_1<br/>备用控制室"]
+            CORP_DEAL_2["😔 corp_deal_2<br/>陈主管坦白<br/>+flag:chen_honest"]
+            CORP_DEAL_DAUGHTER["👧 corp_deal_daughter<br/>小薇的故事<br/>+flag:know_chen_daughter, charm+1"]
+            CORP_DEAL_3["🔒 corp_deal_3<br/>备用线路"]
+            CORP_DEAL_4["⚡ corp_deal_4<br/>破解外层"]
+            CORP_DEAL_4B["👨‍💻 corp_deal_4b<br/>技术员接手<br/>hack+1"]
+            CORP_DEAL_5["💾 corp_deal_5<br/>数据核心<br/>+datacore, hack+1"]
+            CORP_DEAL_6["🎭 corp_deal_6<br/>周旋"]
+            CORP_DEAL_LOCK["🔒 corp_deal_lock<br/>锁死舱门"]
+            CORP_DEAL_LOCK_OK["✅ corp_deal_lock_ok<br/>争取到时间<br/>hack+1"]
+            CORP_DEAL_HIDE["🤫 corp_deal_hide<br/>藏匿证据<br/>+flag:datacore_hidden"]
+            CORP_DEAL_7["✅ corp_deal_7<br/>周旋成功<br/>charm+1"]
+            CORP_DEAL_7B["⚔️ corp_deal_7b<br/>突围<br/>fight+1"]
+            CORP_DEAL_FAIL["❌ corp_deal_fail<br/>破解失败<br/>hack-1"]
+            CORP_DEAL_QUIT["🚪 corp_deal_quit<br/>拒绝合作"]
+        end
+    end
+
+    %% ===== 汇合点 =====
+    subgraph Convergence["汇合点"]
+        TRUTH_REVEAL["⚖️ truth_reveal<br/>真相揭露"]
+    end
+
+    %% ===== 第三幕: 终局 =====
+    subgraph Act3_Endgame["第三幕: 终局 Act 3 — Endgame"]
+        subgraph EndgameChoice["结局抉择点"]
+            ENDGAME_COEXIST["🤝 endgame_coexist<br/>共存协议<br/>需charm≥4"]
+            ENDGAME_COEXIST_KARA["💬 endgame_coexist_kara<br/>说服凯拉<br/>需charm≥5<br/>+flag:kara_convinced, charm+1"]
+            ENDGAME_WEAVER["🔵 endgame_weaver<br/>织星自治<br/>需weaver_path"]
+            ENDGAME_WEAVER_PLEA["💬 endgame_weaver_plea<br/>最后请求<br/>需charm≥5<br/>+flag:weaver_mercy"]
+            ENDGAME_DESTROY["💥 endgame_destroy<br/>摧毁织星<br/>需lib_path"]
+            ENDGAME_DESTROY_FAREWELL["👋 endgame_destroy_farewell<br/>最后告别<br/>+flag:weaver_farewell"]
+            ENDGAME_CORP["🟡 endgame_corp<br/>公司夺回<br/>需corp_path"]
+            ENDGAME_CORP_BACKUP["💾 endgame_corp_backup<br/>秘密备份<br/>需hack≥5<br/>+flag:weaver_backup"]
+            ENDGAME_CHAOS["🔥 endgame_chaos<br/>失序"]
+        end
+
+        subgraph Endings["结局"]
+            ENDING_COEXIST["🌟 ending_coexist<br/>共存协议<br/>+flag:ending_coexist"]
+            EPILOGUE_COEXIST["📖 epilogue_coexist<br/>十年后的天枢-7"]
+            ENDING_WEAVER["🔵 ending_weaver<br/>织星纪元<br/>+flag:ending_weaver"]
+            EPILOGUE_WEAVER["📖 epilogue_weaver<br/>织星的孤独"]
+            ENDING_DESTROY["💀 ending_destroy<br/>灰烬<br/>+flag:ending_destroy"]
+            EPILOGUE_DESTROY["📖 epilogue_destroy<br/>林屿的余生"]
+            ENDING_CORP_WIN["🟡 ending_corp_win<br/>旧秩序<br/>+flag:ending_corp_win"]
+            EPILOGUE_CORP["📖 epilogue_corp<br/>秩序之下"]
+            ENDING_CHAOS["🔥 ending_chaos<br/>坠落<br/>+flag:ending_chaos"]
+            EPILOGUE_CHAOS["📖 epilogue_chaos<br/>太空中的漂流者"]
+        end
+    end
+
+    %% ===== 连接线 — 维修舱区域 =====
+    START -->|"hack≥3, minigame"| PATH_HACK
+    START -->|"fight≥2"| PATH_FIGHT
+    START -->|"charm≥1"| PATH_CHARM
+    START --> START_SEARCH
+    START --> START_LOG
+    START --> START_MEMORY
+    START_SEARCH -->|"hack≥3"| PATH_HACK
+    START_SEARCH -->|"fight≥2"| PATH_FIGHT
+    START_SEARCH -->|"charm≥1"| PATH_CHARM
+    START_SEARCH --> START_LOG
+    START_LOG -->|"hack≥3"| PATH_HACK
+    START_LOG -->|"fight≥2"| PATH_FIGHT
+    START_LOG -->|"charm≥1"| PATH_CHARM
+    START_LOG --> START_SEARCH
+    START_LOG --> START_MEMORY
+    START_MEMORY -->|"hack≥3"| PATH_HACK
+    START_MEMORY -->|"fight≥2"| PATH_FIGHT
+    START_MEMORY -->|"charm≥1"| PATH_CHARM
+    START_MEMORY --> START_LOG
+    START_MEMORY --> START_SEARCH
+    PATH_HACK --> CORRIDOR
+    PATH_FIGHT --> CORRIDOR_BATTLE
+    PATH_FIGHT -->|"躲回"| START
+    PATH_CHARM --> CORRIDOR
+    PATH_CHARM --> PATH_CHARM_TALK
+    PATH_CHARM_TALK --> CORRIDOR
+    PATH_FALLBACK -->|"fight≥2"| PATH_FIGHT
+    PATH_FALLBACK -->|"charm≥1"| PATH_CHARM
+    PATH_FALLBACK --> START_SEARCH
+
+    %% ===== 连接线 — 走廊区域 =====
+    CORRIDOR --> ATRIUM
+    CORRIDOR --> CORRIDOR_DORM
+    CORRIDOR --> CORRIDOR_SCREEN
+    CORRIDOR_DORM --> CORRIDOR_DORM_CARD
+    CORRIDOR_DORM --> ATRIUM
+    CORRIDOR_DORM_CARD --> ATRIUM
+    CORRIDOR_SCREEN --> ATRIUM
+    CORRIDOR_SCREEN --> CORRIDOR_DORM
+    CORRIDOR_BATTLE -->|"battle 胜"| CORRIDOR_WIN
+    CORRIDOR_BATTLE -->|"battle 败"| CORRIDOR_LOSE
+    CORRIDOR_BATTLE -->|"躲回"| START
+    CORRIDOR_WIN --> ATRIUM
+    CORRIDOR_LOSE --> ATRIUM
+
+    %% ===== 连接线 — 中庭区域 =====
+    ATRIUM --> WEAVER_INTRO
+    ATRIUM --> LIB_INTRO
+    ATRIUM --> CORP_INTRO
+    ATRIUM --> ATRIUM_OBSERVE
+    ATRIUM --> ATRIUM_CIVILIANS
+    ATRIUM_CIVILIANS --> WEAVER_INTRO
+    ATRIUM_CIVILIANS --> LIB_INTRO
+    ATRIUM_CIVILIANS --> CORP_INTRO
+    ATRIUM_CIVILIANS --> ATRIUM_OBSERVE
+    ATRIUM_OBSERVE --> WEAVER_INTRO
+    ATRIUM_OBSERVE --> LIB_INTRO
+    ATRIUM_OBSERVE --> CORP_INTRO
+    WEAVER_INTRO --> FACTION_WEAVER
+    WEAVER_INTRO -->|"再了解"| ATRIUM
+    LIB_INTRO --> FACTION_LIB
+    LIB_INTRO -->|"再了解"| ATRIUM
+    CORP_INTRO --> FACTION_CORP
+    CORP_INTRO -->|"再了解"| ATRIUM
+
+    %% ===== 连接线 — 站队抉择 =====
+    FACTION_WEAVER --> WEAVER_CORE_1
+    FACTION_LIB --> LIB_PLAN_1
+    FACTION_CORP --> CORP_DEAL_1
+
+    %% ===== 连接线 — 织星线 =====
+    WEAVER_CORE_1 -->|"hack≥4, minigame"| WEAVER_CORE_2
+    WEAVER_CORE_1 -->|"有weaver_shard"| WEAVER_CORE_3
+    WEAVER_CORE_1 --> WEAVER_STUDY
+    WEAVER_STUDY -->|"hack≥4"| WEAVER_CORE_2
+    WEAVER_STUDY -->|"有weaver_shard"| WEAVER_CORE_3
+    WEAVER_CORE_2 -->|"minigame"| WEAVER_CORE_3
+    WEAVER_CORE_3 --> WEAVER_CORE_4
+    WEAVER_CORE_3 --> WEAVER_CORE_RECORDS
+    WEAVER_CORE_3 --> WEAVER_CORE_BIRTH
+    WEAVER_CORE_RECORDS --> WEAVER_CORE_4
+    WEAVER_CORE_RECORDS --> WEAVER_CORE_BIRTH
+    WEAVER_CORE_BIRTH --> WEAVER_CORE_4
+    WEAVER_CORE_BIRTH --> WEAVER_CORE_RECORDS
+    WEAVER_CORE_4 -->|"charm≥3"| WEAVER_CORE_5
+    WEAVER_CORE_4 --> WEAVER_CORE_5
+    WEAVER_CORE_4 --> WEAVER_CORE_QUIT
+    WEAVER_CORE_5 --> WEAVER_CORE_6
+    WEAVER_CORE_5 --> WEAVER_CIVILIANS
+    WEAVER_CORE_5 --> WEAVER_CHEN_MEET
+    WEAVER_CIVILIANS --> WEAVER_CORE_6
+    WEAVER_CIVILIANS --> WEAVER_CHEN_MEET
+    WEAVER_CHEN_MEET -->|"charm≥3"| WEAVER_CHEN_YES
+    WEAVER_CHEN_MEET --> WEAVER_CHEN_THREAT
+    WEAVER_CHEN_MEET --> WEAVER_CORE_6
+    WEAVER_CHEN_YES --> WEAVER_CORE_6
+    WEAVER_CHEN_YES --> TRUTH_REVEAL
+    WEAVER_CHEN_THREAT --> WEAVER_CORE_6
+    WEAVER_CHEN_THREAT --> TRUTH_REVEAL
+    WEAVER_CORE_6 -->|"charm≥4+truth_disk"| WEAVER_CORE_7
+    WEAVER_CORE_6 -->|"charm≥3+weaver_shard"| WEAVER_CORE_7
+    WEAVER_CORE_6 --> WEAVER_CORE_QUIT
+    WEAVER_CORE_7 --> TRUTH_REVEAL
+    WEAVER_CORE_FAIL --> WEAVER_STUDY
+    WEAVER_CORE_FAIL -->|"有weaver_shard"| WEAVER_CORE_3
+    WEAVER_CORE_QUIT --> FACTION_LIB
+    WEAVER_CORE_QUIT --> FACTION_CORP
+    WEAVER_CORE_QUIT --> TRUTH_REVEAL
+
+    %% ===== 连接线 — 解放线 =====
+    LIB_PLAN_1 --> LIB_PLAN_2
+    LIB_PLAN_2 -->|"battle 机器人"| LIB_PLAN_3
+    LIB_PLAN_2 -->|"battle 公司"| LIB_PLAN_3B
+    LIB_PLAN_2 --> LIB_PLAN_SNEAK
+    LIB_PLAN_SNEAK --> LIB_PLAN_4
+    LIB_PLAN_3 --> LIB_PLAN_4
+    LIB_PLAN_3B --> LIB_PLAN_4
+    LIB_PLAN_4 -->|"charm≥3"| LIB_PLAN_5
+    LIB_PLAN_4 --> LIB_PLAN_5B
+    LIB_PLAN_4 --> LIB_PLAN_5C
+    LIB_PLAN_4 --> LIB_PLAN_PHOTO
+    LIB_PLAN_PHOTO -->|"charm≥3"| LIB_PLAN_5
+    LIB_PLAN_PHOTO --> LIB_PLAN_5B
+    LIB_PLAN_PHOTO --> LIB_PLAN_5C
+    LIB_PLAN_5 --> TRUTH_REVEAL
+    LIB_PLAN_5B --> TRUTH_REVEAL
+    LIB_PLAN_5C --> TRUTH_REVEAL
+    LIB_PLAN_FAIL --> LIB_PLAN_2
+    LIB_PLAN_FAIL --> WEAVER_CORE_QUIT
+
+    %% ===== 连接线 — 公司线 =====
+    CORP_DEAL_1 --> CORP_DEAL_2
+    CORP_DEAL_2 -->|"charm≥2"| CORP_DEAL_3
+    CORP_DEAL_2 --> CORP_DEAL_3
+    CORP_DEAL_2 --> CORP_DEAL_QUIT
+    CORP_DEAL_2 --> CORP_DEAL_DAUGHTER
+    CORP_DEAL_DAUGHTER -->|"charm≥2"| CORP_DEAL_3
+    CORP_DEAL_DAUGHTER --> CORP_DEAL_3
+    CORP_DEAL_DAUGHTER --> CORP_DEAL_QUIT
+    CORP_DEAL_3 -->|"hack≥4, minigame"| CORP_DEAL_4
+    CORP_DEAL_3 --> CORP_DEAL_4B
+    CORP_DEAL_4 -->|"minigame"| CORP_DEAL_5
+    CORP_DEAL_4B --> CORP_DEAL_5
+    CORP_DEAL_5 --> CORP_DEAL_6
+    CORP_DEAL_6 -->|"charm≥3"| CORP_DEAL_7
+    CORP_DEAL_6 -->|"battle"| CORP_DEAL_7B
+    CORP_DEAL_6 -->|"hack≥4, minigame"| CORP_DEAL_LOCK
+    CORP_DEAL_6 --> CORP_DEAL_HIDE
+    CORP_DEAL_LOCK -->|"minigame"| CORP_DEAL_LOCK_OK
+    CORP_DEAL_LOCK_OK --> TRUTH_REVEAL
+    CORP_DEAL_HIDE --> TRUTH_REVEAL
+    CORP_DEAL_7 --> TRUTH_REVEAL
+    CORP_DEAL_7B --> TRUTH_REVEAL
+    CORP_DEAL_FAIL --> CORP_DEAL_3
+    CORP_DEAL_FAIL --> WEAVER_CORE_QUIT
+    CORP_DEAL_QUIT --> FACTION_WEAVER
+    CORP_DEAL_QUIT --> FACTION_LIB
+
+    %% ===== 连接线 — 汇合点到终局 =====
+    TRUTH_REVEAL -->|"charm≥4"| ENDGAME_COEXIST
+    TRUTH_REVEAL -->|"weaver_path"| ENDGAME_WEAVER
+    TRUTH_REVEAL -->|"lib_path"| ENDGAME_DESTROY
+    TRUTH_REVEAL -->|"corp_path"| ENDGAME_CORP
+    TRUTH_REVEAL --> ENDGAME_CHAOS
+
+    %% ===== 连接线 — 终局抉择 =====
+    ENDGAME_COEXIST -->|"charm≥5"| ENDGAME_COEXIST_KARA
+    ENDGAME_COEXIST --> ENDING_COEXIST
+    ENDGAME_COEXIST_KARA --> ENDING_COEXIST
+    ENDGAME_WEAVER --> ENDING_WEAVER
+    ENDGAME_WEAVER -->|"charm≥5"| ENDGAME_WEAVER_PLEA
+    ENDGAME_WEAVER_PLEA --> ENDING_WEAVER
+    ENDGAME_DESTROY --> ENDING_DESTROY
+    ENDGAME_DESTROY --> ENDGAME_DESTROY_FAREWELL
+    ENDGAME_DESTROY_FAREWELL --> ENDING_DESTROY
+    ENDGAME_CORP --> ENDING_CORP_WIN
+    ENDGAME_CORP -->|"hack≥5"| ENDGAME_CORP_BACKUP
+    ENDGAME_CORP_BACKUP --> ENDING_CORP_WIN
+    ENDGAME_CHAOS --> ENDING_CHAOS
+
+    %% ===== 连接线 — 结局到尾声 =====
+    ENDING_COEXIST --> EPILOGUE_COEXIST
+    EPILOGUE_COEXIST -->|"restart"| START
+    ENDING_WEAVER --> EPILOGUE_WEAVER
+    EPILOGUE_WEAVER -->|"restart"| START
+    ENDING_DESTROY --> EPILOGUE_DESTROY
+    EPILOGUE_DESTROY -->|"restart"| START
+    ENDING_CORP_WIN --> EPILOGUE_CORP
+    EPILOGUE_CORP -->|"restart"| START
+    ENDING_CHAOS --> EPILOGUE_CHAOS
+    EPILOGUE_CHAOS -->|"restart"| START
+
+    %% ===== 样式 =====
+    classDef startNode fill:#2d5b2d,stroke:#4caf50,color:#fff,stroke-width:3px
+    classDef hackNode fill:#1a3a5c,stroke:#2196f3,color:#fff
+    classDef battleNode fill:#5c1a1a,stroke:#f44336,color:#fff
+    classDef charmNode fill:#5c3a1a,stroke:#ff9800,color:#fff
+    classDef weaverNode fill:#1a2a5c,stroke:#3f51b5,color:#fff
+    classDef libNode fill:#5c1a1a,stroke:#e91e63,color:#fff
+    classDef corpNode fill:#5c4a1a,stroke:#ffc107,color:#000
+    classDef endingGood fill:#2d5b2d,stroke:#4caf50,color:#fff,stroke-width:3px
+    classDef endingBad fill:#5c1a1a,stroke:#f44336,color:#fff,stroke-width:3px
+    classDef endingNeutral fill:#5c4a1a,stroke:#ffc107,color:#000,stroke-width:3px
+    classDef converge fill:#4a1a5c,stroke:#9c27b0,color:#fff,stroke-width:2px
+
+    class START startNode
+    class PATH_HACK,WEAVER_CORE_1,WEAVER_CORE_2,WEAVER_STUDY,CORP_DEAL_3,CORP_DEAL_4,CORP_DEAL_LOCK hackNode
+    class PATH_FIGHT,CORRIDOR_BATTLE,CORRIDOR_WIN,CORRIDOR_LOSE,LIB_PLAN_3,LIB_PLAN_3B,CORP_DEAL_7B battleNode
+    class PATH_CHARM,PATH_CHARM_TALK,ATRIUM_OBSERVE,ATRIUM_CIVILIANS,WEAVER_CORE_6,WEAVER_CORE_7,LIB_PLAN_5,CORP_DEAL_7 charmNode
+    class WEAVER_INTRO,FACTION_WEAVER,WEAVER_CORE_3,WEAVER_CORE_4,WEAVER_CORE_5,WEAVER_CIVILIANS,WEAVER_CHEN_MEET,WEAVER_CHEN_YES,WEAVER_CHEN_THREAT,WEAVER_CORE_RECORDS,WEAVER_CORE_BIRTH,WEAVER_CORE_FAIL,WEAVER_CORE_QUIT,ENDGAME_WEAVER,ENDGAME_WEAVER_PLEA,ENDING_WEAVER,EPILOGUE_WEAVER weaverNode
+    class LIB_INTRO,FACTION_LIB,LIB_PLAN_1,LIB_PLAN_2,LIB_PLAN_SNEAK,LIB_PLAN_4,LIB_PLAN_PHOTO,LIB_PLAN_5B,LIB_PLAN_5C,LIB_PLAN_FAIL,ENDGAME_DESTROY,ENDGAME_DESTROY_FAREWELL,ENDING_DESTROY,EPILOGUE_DESTROY libNode
+    class CORP_INTRO,FACTION_CORP,CORP_DEAL_1,CORP_DEAL_2,CORP_DEAL_DAUGHTER,CORP_DEAL_4B,CORP_DEAL_5,CORP_DEAL_6,CORP_DEAL_LOCK_OK,CORP_DEAL_HIDE,CORP_DEAL_FAIL,CORP_DEAL_QUIT,ENDGAME_CORP,ENDGAME_CORP_BACKUP,ENDING_CORP_WIN,EPILOGUE_CORP corpNode
+    class TRUTH_REVEAL converge
+    class ENDING_COEXIST,EPILOGUE_COEXIST endingGood
+    class ENDING_CHAOS,EPILOGUE_CHAOS endingBad
+    class ENDING_DESTROY,EPILOGUE_DESTROY,ENDING_CORP_WIN,EPILOGUE_CORP endingNeutral

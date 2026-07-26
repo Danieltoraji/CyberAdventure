@@ -62,7 +62,19 @@
      * @returns {Promise<string|Object>} 同步 action 返回字符串; 异步 action 返回 { outcome, message }
      */
     async runAction(action) {
-      if (!action || typeof action !== "object") return "";
+      if (!action) return "";
+      // 支持数组形式: 依次执行每个 action,合并消息
+      if (Array.isArray(action)) {
+        const msgs = [];
+        for (const a of action) {
+          const msg = await this.runAction(a);
+          if (typeof msg === "string" && msg && !msg.startsWith("__")) {
+            msgs.push(msg);
+          }
+        }
+        return msgs.join(" / ");
+      }
+      if (typeof action !== "object") return "";
       const state = CyberAdv.State;
       const type = action.type || action.action; // 兼容 onEnter 的 action 字段
 

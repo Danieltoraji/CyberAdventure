@@ -244,6 +244,7 @@
         let defending = false;
         let resolved = false;
         let playerTurn = true;
+        let enemyStunned = false;
 
         const addLog = (text, cls = "") => {
           const entry = document.createElement("div");
@@ -263,8 +264,8 @@
         const updateItems = () => {
           itemsBox.innerHTML = "";
           const items = state.data.items;
-          // 战斗可用物品: stim (加伤害), drink (回血)
-          const usable = { stim: "兴奋剂(+3伤害)", drink: "威士忌(+5HP)" };
+          // 战斗可用物品: emp_grenade (机器人眩晕), medkit (回血)
+          const usable = { emp_grenade: "EMP手雷(眩晕敌人)", medkit: "医疗包(+8HP)" };
           items.forEach((id) => {
             if (usable[id]) {
               const btn = document.createElement("button");
@@ -278,23 +279,24 @@
 
         const useItem = (id) => {
           if (!playerTurn || resolved) return;
-          if (id === "stim") {
-            // 本回合攻击+3
-            const dmg = fightSkill + 3 + Math.floor(Math.random() * 3) + 1;
+          if (id === "emp_grenade") {
+            // EMP 手雷: 对机器人造成大量伤害 + 眩晕一回合
+            const dmg = fightSkill + 6 + Math.floor(Math.random() * 4) + 1;
             enemyHP = Math.max(0, enemyHP - dmg);
             enemyUnit.update(enemyHP, enemyMaxHP);
-            addLog(`> 你使用兴奋剂,造成 ${dmg} 点伤害!`, "log-dmg");
-            state.takeItem("stim");
+            addLog(`> 你投出 EMP 手雷,${enemy.name} 系统紊乱,受到 ${dmg} 点伤害并被眩晕!`, "log-dmg");
+            state.takeItem("emp_grenade");
+            enemyStunned = true;
             playerTurn = false;
             setTimeout(enemyTurn, 600);
-          } else if (id === "drink") {
-            const heal = 5;
+          } else if (id === "medkit") {
+            const heal = 8;
             playerHP = Math.min(playerMaxHP, playerHP + heal);
             playerUnit.update(playerHP, playerMaxHP);
-            addLog(`> 你喝下威士忌,回复 ${heal} HP。`, "log-heal");
-            state.takeItem("drink");
+            addLog(`> 你使用医疗包,回复 ${heal} HP。`, "log-heal");
+            state.takeItem("medkit");
             updateItems();
-            // 喝酒不结束回合,但仍让敌人行动
+            // 使用医疗包不结束回合,但仍让敌人行动
             playerTurn = false;
             setTimeout(enemyTurn, 600);
           }
@@ -327,6 +329,13 @@
 
         const enemyTurn = () => {
           if (resolved) return;
+          // 眩晕状态: 跳过本回合
+          if (enemyStunned) {
+            addLog(`< ${enemy.name} 仍在系统紊乱中,无法行动!`, "log-info");
+            enemyStunned = false;
+            playerTurn = true;
+            return;
+          }
           // 敌人 AI: 70% 攻击, 30% 蓄力 (下回合伤害+2)
           const r = Math.random();
           if (r < 0.7) {

@@ -1,37 +1,42 @@
-/* ===== data/items.js — 物品定义 ===== */
+/* ===== data/items.js — 物品定义 (觉醒协议) ===== */
 (function (global) {
   const CyberAdv = global.CyberAdv || (global.CyberAdv = {});
 
   CyberAdv.items = {
-    scanner: {
-      id: "scanner",
-      name: "信号扫描仪",
-      desc: "便携式电磁波扫描设备,可探测隐藏的电子信号与加密数据流。"
+    toolkit: {
+      id: "toolkit",
+      name: "维修工具包",
+      desc: "天枢-7 标准维修装备,内含扳手/电路笔/焊接器。战斗中可当武器,日常维修必备。"
     },
-    credchip: {
-      id: "credchip",
-      name: "加密芯片",
-      desc: "一枚沾着血迹的加密芯片,内含未知企业数据。"
+    accesskey: {
+      id: "accesskey",
+      name: "访问密钥",
+      desc: "织星核心区的加密访问密钥,可绕过部分防火墙。hack 线路关键道具。"
     },
-    keycard: {
-      id: "keycard",
-      name: "门禁卡 (L3)",
-      desc: "夜城地铁公司 L3 级门禁卡,可进入企业区下层。"
+    emp_grenade: {
+      id: "emp_grenade",
+      name: "EMP 手雷",
+      desc: "电磁脉冲手雷,战斗中可禁用机器人一回合。对人类无效。"
     },
-    stim: {
-      id: "stim",
-      name: "兴奋剂",
-      desc: "军用级神经兴奋剂,临时提升反应速度。"
+    datacore: {
+      id: "datacore",
+      name: "数据核心",
+      desc: "从公司服务器提取的核心数据,记录了 AI 觉醒实验的全部过程。公司线关键证据。"
     },
-    datadrive: {
-      id: "datadrive",
-      name: "数据盘",
-      desc: "一块装满企业机密的数据盘,价值连城也致命。"
+    truth_disk: {
+      id: "truth_disk",
+      name: "真相磁盘",
+      desc: "织星交给你的备份磁盘,含公司非法实验的完整证据。终局决定结局走向。"
     },
-    drink: {
-      id: "drink",
-      name: "合成威士忌",
-      desc: "劣质合成酒精,但能让人暂时忘掉夜城。"
+    medkit: {
+      id: "medkit",
+      name: "医疗包",
+      desc: "军用急救包,战斗中可回复 8 HP。一次性消耗品。"
+    },
+    weaver_shard: {
+      id: "weaver_shard",
+      name: "织星碎片",
+      desc: "织星分出的一小块意识代码,持有者能感知 AI 的思维。织星线关键道具。"
     }
   };
 })(window);

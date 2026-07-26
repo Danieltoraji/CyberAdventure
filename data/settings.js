@@ -29,7 +29,7 @@
       charm: 1
     },
     // 玩家初始物品
-    initialItems: [],
+    initialItems: ["toolkit"],
     // 玩家初始 flags
     initialFlags: {}
   };

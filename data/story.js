@@ -32,7 +32,7 @@
         text: "扫描仪发出低鸣,过滤掉干扰信号。你终于看清了:\n\n死者是一名企业特工,胸口的伤口边缘有纳米机器人残留——这是公司内部清洗的痕迹。他紧握的手指间,夹着一枚沾血的加密芯片。\n\n旁边的终端屏幕亮起一行字: [ACCESS DENIED — 需要 HACK 技能 ≥ 5]",
         onEnter: { action: "give_item", item: "credchip" },
         options: [
-          { text: "[黑客] 破解加密终端", next: "hack_ok", requires: { skills: { hack: 5 } }, action: { type: "minigame/hack" } },
+          { text: "[黑客] 破解加密终端", next: "hack_ok", requires: { skills: { hack: 5 } }, action: { type: "minigame/hack", success: "hack_ok", failure: "hack_fail", difficulty: 3 } },
           { text: "暴力拆解终端", next: "hack_fail", requires: { skills: { fight: 4 } } },
           { text: "放弃终端,带芯片去酒吧打听", next: "bar" },
           { text: "退回巷口", next: "alley" }
@@ -68,7 +68,8 @@
           { text: "把芯片交给老乔保管", next: "ending_pawn", requires: { items: ["credchip"] }, action: { type: "take_item", item: "credchip" } },
           { text: "隐瞒真相,自己处理芯片", next: "ending_truth", requires: { flags: ["knows_truth"], items: ["credchip"] } },
           { text: "隐瞒真相,但没证据 (暴力线)", next: "ending_pawn", requires: { flags: ["alerted_corp"] } },
-          { text: "先喝口酒压压惊", next: "bar_drink" }
+          { text: "先喝口酒压压惊", next: "bar_drink" },
+          { text: "吧台角落有人盯梢,去对峙", next: "bar_fight" }
         ]
       },
 
@@ -90,6 +91,38 @@
         options: [
           { text: "让他公开数据 (揭露阴谋)", next: "ending_truth" },
           { text: "卖给他换钱 (沦为棋子)", next: "ending_pawn" }
+        ]
+      },
+
+      // ===== 战斗遭遇: 酒吧盯梢者 =====
+      bar_fight: {
+        title: "霓虹酒吧 // 盯梢者",
+        text: "你走向吧台角落。那个戴墨镜的男人正盯着你,手悄悄伸进外套里。\n\n「阿拉萨德的人。」老乔在你身后低语,「小心。」\n\n墨镜男站起身,露出外套下的电击棍——他是公司的清理特工。",
+        options: [
+          { text: "[战斗] 正面对抗", next: "fight_win", action: { type: "battle", success: "fight_win", failure: "fight_lose", enemy: { name: "公司特工", hp: 18, atk: 4 } } },
+          { text: "退回吧台,假装没看见", next: "bar" }
+        ]
+      },
+
+      // ===== 战斗胜利 =====
+      fight_win: {
+        title: "战斗结束 // 特工倒下",
+        text: "墨镜男倒在地上,电击棍滚落一旁。你从他口袋里搜出一枚军用兴奋剂和一张门禁卡。\n\n老乔递来一杯酒:「干得漂亮。但阿拉萨德会派更多人来的。地铁下层的数据贩子能帮你处理那芯片——快走。」",
+        onEnter: { action: "give_item", item: "stim" },
+        options: [
+          { text: "去找数据贩子", next: "datadealer", requires: { items: ["keycard"] } },
+          { text: "去找数据贩子 (无门禁卡,硬闯)", next: "datadealer" },
+          { text: "回吧台商量对策", next: "bar" }
+        ]
+      },
+
+      // ===== 战斗失败 =====
+      fight_lose: {
+        title: "战斗失败 // 被制服",
+        text: "电击棍的电流窜过你的神经,你瘫倒在地。墨镜男搜走了你身上的芯片,留下一句:\n\n「阿拉萨德向你问好。」\n\n你醒来时,老乔正在给你止血。芯片没了,但命还在。你只能空手离开夜城。",
+        onEnter: { action: "take_item", item: "credchip" },
+        options: [
+          { text: "黯然离开 (沦为棋子结局)", next: "ending_pawn" }
         ]
       },
 

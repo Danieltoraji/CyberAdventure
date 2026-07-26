@@ -57,11 +57,11 @@
     },
 
     /**
-     * 执行 action (内置 + 预留)
-     * @param {Object} action - { type, item, flag, skill, ... }
-     * @returns {string} 执行结果消息 (空字符串表示无提示)
+     * 执行 action (内置同步 + 异步小游戏/战斗)
+     * @param {Object} action - { type, item, flag, skill, success, failure, ... }
+     * @returns {Promise<string|Object>} 同步 action 返回字符串; 异步 action 返回 { outcome, message }
      */
-    runAction(action) {
+    async runAction(action) {
       if (!action || typeof action !== "object") return "";
       const state = CyberAdv.State;
       const type = action.type || action.action; // 兼容 onEnter 的 action 字段
@@ -92,11 +92,17 @@
         case "restart":
           // 由 main.js 处理重启逻辑,这里只发信号
           return "__RESTART__";
-        // ===== 预留未实现 action =====
+        // ===== 异步 action: 小游戏/战斗 =====
         case "minigame/hack":
-          return "__PENDING__::小游戏 [黑客破解] 功能开发中,直接判定成功";
+          if (CyberAdv.Actions && CyberAdv.Actions.hack) {
+            return await CyberAdv.Actions.hack(action);
+          }
+          return { outcome: "failure", message: "小游戏模块未加载" };
         case "battle":
-          return "__PENDING__::战斗系统功能开发中";
+          if (CyberAdv.Actions && CyberAdv.Actions.battle) {
+            return await CyberAdv.Actions.battle(action);
+          }
+          return { outcome: "failure", message: "战斗模块未加载" };
         default:
           console.warn(`[Engine] 未知 action 类型: ${type}`);
           return "";
@@ -116,38 +122,65 @@
       this._transitioning = true;
 
       // 1. 执行选项 action (如果有)
+      let targetNode = nodeId;
       if (optionAction) {
-        const msg = this.runAction(optionAction);
-        if (msg === "__RESTART__") {
+        const result = await this.runAction(optionAction);
+
+        // 重启信号
+        if (result === "__RESTART__") {
           this._transitioning = false;
           CyberAdv.UI && CyberAdv.UI.onRestartRequest && CyberAdv.UI.onRestartRequest();
           return;
         }
-        if (msg.startsWith("__PENDING__")) {
-          CyberAdv.UI && CyberAdv.UI.toast(msg.split("::")[1], "warn");
-        } else if (msg) {
-          CyberAdv.UI && CyberAdv.UI.toast(msg);
+
+        // 异步 action 返回 outcome 对象: 按 success/failure 跳转
+        if (result && typeof result === "object" && result.outcome) {
+          if (result.message) {
+            const toastType = result.outcome === "success" ? "info" : result.outcome === "cancel" ? "warn" : "error";
+            CyberAdv.UI && CyberAdv.UI.toast(result.message, toastType);
+          }
+          // cancel: 回到原节点,不跳转
+          if (result.outcome === "cancel") {
+            this._transitioning = false;
+            return;
+          }
+          // success/failure: 覆盖目标节点
+          if (result.outcome === "success" && optionAction.success) {
+            targetNode = optionAction.success;
+          } else if (result.outcome === "failure" && optionAction.failure) {
+            targetNode = optionAction.failure;
+          }
+        } else if (typeof result === "string" && result) {
+          // 同步 action 的字符串消息
+          CyberAdv.UI && CyberAdv.UI.toast(result);
         }
+      }
+
+      // 重新获取目标节点 (可能被 action outcome 覆盖)
+      const finalNode = this.getNode(targetNode);
+      if (!finalNode) {
+        this._transitioning = false;
+        return;
       }
 
       // 2. glitch 过场
       if (CyberAdv.UI && CyberAdv.UI.glitchTransition) {
-        await CyberAdv.UI.glitchTransition(node.title || "");
+        await CyberAdv.UI.glitchTransition(finalNode.title || "");
       }
 
       // 3. 更新状态
-      CyberAdv.State.setCurrentNode(nodeId);
+      CyberAdv.State.setCurrentNode(targetNode);
 
       // 4. 执行 onEnter action
-      if (node.onEnter) {
-        const msg = this.runAction(node.onEnter);
-        if (msg && !msg.startsWith("__")) {
+      if (finalNode.onEnter) {
+        const msg = await this.runAction(finalNode.onEnter);
+        if (typeof msg === "string" && msg && !msg.startsWith("__")) {
           CyberAdv.UI && CyberAdv.UI.toast(msg);
         }
       }
 
       // 5. 渲染
-      CyberAdv.UI && CyberAdv.UI.renderNode(node);
+      CyberAdv.UI && CyberAdv.UI.renderNode(finalNode);
 
       // 6. 自动存档
       CyberAdv.Save && CyberAdv.Save.autoSave && CyberAdv.Save.autoSave();

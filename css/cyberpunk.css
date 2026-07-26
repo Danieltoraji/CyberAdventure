@@ -252,6 +252,73 @@ body::after {
   color: #000;
 }
 
+/* ===== 模态层主题 ===== */
+.modal-layer {
+  animation: modal-in 0.2s ease;
+}
+
+@keyframes modal-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-box {
+  text-shadow: 0 0 4px rgba(0, 255, 156, 0.3);
+  animation: modal-box-in 0.3s ease;
+}
+
+@keyframes modal-box-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+    text-shadow:
+      3px 0 var(--neon-pink),
+      -3px 0 var(--neon-cyan);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-title {
+  text-shadow: 0 0 8px rgba(0, 255, 156, 0.6);
+}
+
+/* hack 字符闪烁 */
+.hack-char {
+  animation: hack-char-in 0.3s ease backwards, hack-flicker 2s infinite;
+}
+
+@keyframes hack-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
+}
+
+/* hack 输入框光标 */
+.hack-input::after {
+  content: "▊";
+}
+
+/* 战斗 HP 条发光 */
+.battle-hp-fill {
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* 战斗按钮霓虹 */
+.modal-btn {
+  text-shadow: 0 0 4px rgba(200, 255, 224, 0.3);
+}
+
+.modal-btn:hover:not(:disabled) {
+  text-shadow: 0 0 6px rgba(0, 255, 156, 0.8);
+}
+
+/* 战斗日志滚动 */
+.battle-log {
+  text-shadow: 0 0 3px rgba(200, 255, 224, 0.2);
+}
+
 /* ===== 减少动画 (无障碍) ===== */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -326,3 +326,269 @@ body {
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(0, 255, 156, 0.5); }
+
+/* ===== 模态层 (小游戏/战斗容器) ===== */
+.modal-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.85);
+  padding: 20px;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--bg-terminal, #050a08);
+  border: 1px solid var(--neon-green, #00ff9c);
+  box-shadow: 0 0 40px rgba(0, 255, 156, 0.4);
+  padding: 24px;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--neon-green, #00ff9c);
+  letter-spacing: 2px;
+  border-bottom: 1px dashed rgba(0, 255, 156, 0.3);
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
+
+.modal-desc {
+  font-size: 13px;
+  color: #6a8a7a;
+  margin-bottom: 16px;
+  line-height: 1.6;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.modal-btn {
+  flex: 1;
+  min-width: 100px;
+  padding: 10px 14px;
+  background: transparent;
+  border: 1px solid rgba(0, 255, 156, 0.4);
+  color: #c8ffe0;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.modal-btn:hover:not(:disabled) {
+  background: rgba(0, 255, 156, 0.1);
+  border-color: var(--neon-green, #00ff9c);
+  box-shadow: 0 0 12px rgba(0, 255, 156, 0.4);
+}
+
+.modal-btn:disabled {
+  color: #4a5a52;
+  border-color: rgba(74, 90, 82, 0.4);
+  cursor: not-allowed;
+}
+
+.modal-btn.btn-cancel {
+  border-color: rgba(255, 46, 136, 0.4);
+  color: #ff8fb5;
+}
+
+/* ===== hack 小游戏 ===== */
+.hack-sequence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 16px;
+  background: #0a1410;
+  border: 1px solid rgba(0, 255, 156, 0.3);
+  margin-bottom: 12px;
+  min-height: 60px;
+  align-items: center;
+  justify-content: center;
+}
+
+.hack-char {
+  font-size: 22px;
+  font-weight: bold;
+  color: var(--neon-green, #00ff9c);
+  text-shadow: 0 0 8px rgba(0, 255, 156, 0.6);
+  letter-spacing: 2px;
+  animation: hack-char-in 0.3s ease backwards;
+}
+
+@keyframes hack-char-in {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hack-timer {
+  font-size: 14px;
+  color: var(--neon-amber, #ffb000);
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: 1px;
+}
+
+.hack-timer.danger {
+  color: var(--neon-pink, #ff2e88);
+  animation: blink-status 0.5s infinite;
+}
+
+.hack-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: #0a1410;
+  border: 1px solid rgba(0, 255, 156, 0.4);
+  color: var(--neon-green, #00ff9c);
+  font-family: inherit;
+  font-size: 18px;
+  letter-spacing: 4px;
+  text-align: center;
+  margin-bottom: 12px;
+  outline: none;
+}
+
+.hack-input:focus {
+  border-color: var(--neon-green, #00ff9c);
+  box-shadow: 0 0 12px rgba(0, 255, 156, 0.4);
+}
+
+.hack-progress {
+  text-align: center;
+  font-size: 12px;
+  color: #6a8a7a;
+  margin-bottom: 12px;
+}
+
+.hack-progress .ok {
+  color: var(--neon-green, #00ff9c);
+}
+
+/* ===== battle 战斗 ===== */
+.battle-arena {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.battle-combatants {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.battle-unit {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid rgba(0, 255, 156, 0.3);
+  background: #0a1410;
+}
+
+.battle-unit.enemy {
+  border-color: rgba(255, 46, 136, 0.3);
+}
+
+.battle-unit-name {
+  font-size: 14px;
+  font-weight: bold;
+  color: var(--neon-green, #00ff9c);
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.battle-unit.enemy .battle-unit-name {
+  color: var(--neon-pink, #ff2e88);
+}
+
+.battle-hp-bar {
+  width: 100%;
+  height: 14px;
+  background: #050a08;
+  border: 1px solid rgba(0, 255, 156, 0.3);
+  position: relative;
+  margin-bottom: 6px;
+}
+
+.battle-hp-fill {
+  height: 100%;
+  background: var(--neon-green, #00ff9c);
+  transition: width 0.3s ease;
+}
+
+.battle-unit.enemy .battle-hp-fill {
+  background: var(--neon-pink, #ff2e88);
+}
+
+.battle-hp-text {
+  font-size: 12px;
+  color: #c8ffe0;
+  text-align: right;
+}
+
+.battle-log {
+  padding: 10px 12px;
+  background: #050a08;
+  border: 1px solid rgba(0, 255, 156, 0.2);
+  font-size: 13px;
+  line-height: 1.6;
+  color: #c8ffe0;
+  min-height: 60px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.battle-log .log-entry {
+  margin-bottom: 2px;
+}
+
+.battle-log .log-dmg {
+  color: var(--neon-pink, #ff2e88);
+}
+
+.battle-log .log-heal {
+  color: var(--neon-green, #00ff9c);
+}
+
+.battle-log .log-info {
+  color: #6a8a7a;
+}
+
+.battle-items {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.battle-item-btn {
+  padding: 6px 10px;
+  background: transparent;
+  border: 1px solid rgba(255, 176, 0, 0.4);
+  color: var(--neon-amber, #ffb000);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.battle-item-btn:disabled {
+  color: #4a5a52;
+  border-color: rgba(74, 90, 82, 0.4);
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .modal-box { padding: 16px; }
+  .modal-title { font-size: 16px; }
+  .hack-char { font-size: 18px; }
+  .battle-combatants { flex-direction: column; }
+}

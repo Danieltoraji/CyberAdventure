@@ -27,9 +27,8 @@ jobs:
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          # 自动启用仓库的 Pages 功能 (首次部署时创建 Pages 站点)
-          enablement: true
+        # 注意: 首次部署前需在仓库 Settings → Pages 手动启用一次
+        # Source 选择 "GitHub Actions"
 
       - name: Upload artifact
         # 直接把仓库根目录作为静态站点产物 (零构建,无需 build 步骤)
